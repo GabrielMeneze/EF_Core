@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace EF_Core.Domains
 {
-    public class Pedido : BaseDomain
+    public class BaseDomain
     {
-        
-        public string Status { get; set; }
-        public DateTime OverDate { get; set; }
+        [Key]
+        public Guid Id { get; set; }
 
+        public BaseDomain()
+        {
+            Id = Guid.NewGuid();
+        }
     }
 }

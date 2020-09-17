@@ -7,11 +7,8 @@ using System.Threading.Tasks;
 
 namespace EF_Core.Domains
 {
-    public class PedidoItem
+    public class PedidoItem : BaseDomain
     {
-        [Key]
-        public Guid Id { get; set; }
-        
 
         [ForeignKey("IdPedido")]
         public Guid IdPedido { get; set; }
@@ -21,10 +18,5 @@ namespace EF_Core.Domains
         public Guid IdProduto { get; set; }
         public Produto Produto { get; set; }
 
-
-        public PedidoItem()
-        {
-            Id = Guid.NewGuid();
-        }
     }
 }
