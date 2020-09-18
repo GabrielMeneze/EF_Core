@@ -24,35 +24,95 @@ namespace EF_Core.Controllers
 
         [HttpGet]
 
-        public List<Produto> Get()
+        public IActionResult Get()
         {
-            return _IprodutoRepository.Listar();
+            try
+            {
+                //Lista os produtos no repositório
+                var produtos = _IprodutoRepository.Listar();
+
+                //Verifica se existe produto
+                if (produtos.Count == 0)
+                    return NoContent();
+
+                //Caso exista
+                return Ok(produtos);
+            }
+            catch (Exception ex)
+            {
+                //Caso aconteça algum erro
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet("{Id}")]
-        public Produto Get(Guid Id)
+        public IActionResult Get(Guid Id)
         {
-            return _IprodutoRepository.BuscarPorProduto(Id);
+            try
+            {
+                //Buscar produto no repositorio
+                var produto =  _IprodutoRepository.BuscarPorProduto(Id);
+
+                //verifica se o produto existe
+                if (produto == null)
+                    return NotFound();
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
-        public void Post(Produto produto)
+        public IActionResult Post(Produto produto)
         {
-             _IprodutoRepository.Adicionar(produto);
+            try
+            {
+                //ADICIONA UM PRODUTO
+                _IprodutoRepository.Adicionar(produto);
+
+                return Ok(produto);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message); 
+            }
         }
 
         [HttpPut("{Id}")]
-        public void Put(Guid Id, Produto produto)
+        public IActionResult Put(Guid Id, Produto produto)
         {
-            produto.Id = Id;
-             _IprodutoRepository.Editar(produto);
+            try
+            {
+                produto.Id = Id;
+                _IprodutoRepository.Editar(produto);
+
+                return Ok(produto);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message); 
+            }
         }
 
 
         [HttpDelete("{Id}")]
-        public void Delete(Guid Id)
+        public IActionResult Delete(Guid Id)
         {
-            _IprodutoRepository.Excluir(Id);
+            try
+            {
+                _IprodutoRepository.Excluir(Id);
+
+                return Ok(Id);
+            }
+            catch (Exception ex)
+            {
+
+                return BadRequest(ex.Message);
+            }
         }
 
 
